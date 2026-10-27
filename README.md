@@ -1,22 +1,18 @@
-# TWRP Samsung Galaxy A10s
+# Twrp_device_samsung_a10s (eternalentr0py fork)
 
-# How-to build:
-```
-export ALLOW_MISSING_DEPENDENCIES=true
-. build/envsetup.sh
-lunch omni_a10s-eng
-mka recoveryimage
-```
-## How to find the image built
+TWRP device tree for Samsung Galaxy A10s (SM-A107F / a10s).
 
-`cd /out/target/product/a10s`
+## Crypto / FBE
 
-see recovery.img
+Configured for stock **File-Based Encryption**:
 
-# Device Tree for Samsung Galaxy A10s (SM-A107F/DS)
+- `fileencryption=aes-256-xts:aes-256-cts:v1` on `/data` in `recovery/root/etc/twrp.fstab`
+- `TW_INCLUDE_CRYPTO` / `TW_INCLUDE_CRYPTO_FBE` in `BoardConfig.mk`
+- Security patch `2023-03-01` aligned with stock vendor
+- DE keys live under `/data/unencrypted/key` (`stretching=nopassword`)
 
-Device Tree Made by topser9
+Build via [a10s-twrp-crypto](https://github.com/eternalentr0py/a10s-twrp-crypto) workflow (clones this tree + Trustonic blobs).
 
-## Device Picture
+## Packing
 
-![Galaxy A10s](https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a10s.jpg "Galaxy A10s")
+`bootimg.mk` builds recovery with header v2 and appends `SEANDROIDENFORCE` for Samsung LK. Do not hand-repack the ramdisk if you need a bootable image.
